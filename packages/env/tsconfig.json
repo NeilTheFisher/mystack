@@ -1,0 +1,3 @@
+{
+  "extends": "@mystack/config/tsconfig.base.json"
+}
