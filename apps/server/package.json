@@ -20,7 +20,7 @@
   "devDependencies": {
     "@mystack/config": "workspace:*",
     "@types/bun": "catalog:",
-    "tsdown": "^0.16.5",
+    "tsdown": "^0.21.4",
     "typescript": "^5"
   }
 }

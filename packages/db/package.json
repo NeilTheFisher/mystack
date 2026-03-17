@@ -10,21 +10,21 @@
     }
   },
   "scripts": {
-    "db:push": "drizzle-kit push",
     "db:generate": "drizzle-kit generate",
-    "db:studio": "drizzle-kit studio",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@mystack/env": "workspace:*",
     "dotenv": "catalog:",
-    "drizzle-orm": "^0.45.1",
+    "drizzle-orm": "^1.0.0-beta.18",
     "mysql2": "^3.14.0",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@mystack/config": "workspace:*",
-    "drizzle-kit": "^0.31.8",
+    "drizzle-kit": "^1.0.0-beta.18",
     "typescript": "^5"
   }
 }

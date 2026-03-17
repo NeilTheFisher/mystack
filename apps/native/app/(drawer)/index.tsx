@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { Ionicons } from "@expo/vector-icons";
-import { Button, Chip, Separator, Spinner, Surface, useThemeColor } from "heroui-native";
+import { Chip, Separator, Spinner, Surface, useThemeColor } from "heroui-native";
 import { Text, View } from "react-native";
 
 import { Container } from "@/components/container";
@@ -8,17 +9,20 @@ export default function Home() {
   const successColor = useThemeColor("success");
   const dangerColor = useThemeColor("danger");
 
+  const isLoading = false;
+  const isConnected = false;
+
   return (
     <Container className="px-4 pb-4">
-      <View className="py-6 mb-5">
-        <Text className="text-3xl font-semibold text-foreground tracking-tight">
+      <View className="mb-5 py-6">
+        <Text className="text-foreground text-3xl font-semibold tracking-tight">
           Better T Stack
         </Text>
-        <Text className="text-muted text-sm mt-1">Full-stack TypeScript starter</Text>
+        <Text className="text-muted mt-1 text-sm">Full-stack TypeScript starter</Text>
       </View>
 
-      <Surface variant="secondary" className="p-4 rounded-xl">
-        <View className="flex-row items-center justify-between mb-3">
+      <Surface variant="secondary" className="rounded-xl p-4">
+        <View className="mb-3 flex-row items-center justify-between">
           <Text className="text-foreground font-medium">System Status</Text>
           <Chip variant="secondary" color={isConnected ? "success" : "danger"} size="sm">
             <Chip.Label>{isConnected ? "LIVE" : "OFFLINE"}</Chip.Label>
@@ -27,14 +31,14 @@ export default function Home() {
 
         <Separator className="mb-3" />
 
-        <Surface variant="tertiary" className="p-3 rounded-lg">
+        <Surface variant="tertiary" className="rounded-lg p-3">
           <View className="flex-row items-center">
             <View
-              className={`w-2 h-2 rounded-full mr-3 ${isConnected ? "bg-success" : "bg-muted"}`}
+              className={`mr-3 h-2 w-2 rounded-full ${isConnected ? "bg-success" : "bg-muted"}`}
             />
             <View className="flex-1">
-              <Text className="text-foreground text-sm font-medium"></Text>
-              <Text className="text-muted text-xs mt-0.5">
+              <Text className="text-foreground text-sm font-medium" />
+              <Text className="text-muted mt-0.5 text-xs">
                 {isLoading
                   ? "Checking connection..."
                   : isConnected
