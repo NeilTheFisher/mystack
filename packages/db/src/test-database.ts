@@ -24,7 +24,7 @@ async function createEphemeralTestDatabase() {
 
   createEphemeralTestDatabasePromise = (async () => {
     const start = Date.now();
-    const dbName = "director_v2_test";
+    const dbName = "test_db";
 
     console.log("[DB INIT] Creating in-memory MySQL server...");
     const server = await createMemoryDb({

@@ -8,7 +8,7 @@ export default async function setup(_project: TestProject) {
   Object.assign(process.env, {
     CORS_ORIGIN: "http://localhost:3000",
     DATABASE_URL: "mysql://root:@127.0.0.1:3306/test",
-    DIRECTOR_TEST_DATABASE_READY: "false",
+    TEST_DATABASE_READY: "false",
     ENV: "test",
     NODE_ENV: "test",
     OTEL_TRACE_EXPORTER_URL: "http://127.0.0.1:4318/v1/traces",
@@ -19,7 +19,7 @@ export default async function setup(_project: TestProject) {
 
     Object.assign(process.env, {
       DATABASE_URL: databaseUrl,
-      DIRECTOR_TEST_DATABASE_READY: "true",
+      TEST_DATABASE_READY: "true",
       MYSQL_DATABASE: server.dbName,
       MYSQL_PASSWORD: password,
       MYSQL_SOCKET_ADDRESS: `${host}:${server.port}`,

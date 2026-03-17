@@ -30,10 +30,7 @@ if (env.ENV !== "test") {
           title: "API Reference",
           version: packageVersion,
         },
-        servers: [
-          { url: env.CORS_ORIGIN },
-          ...(env.DIRECTOR_URL ? [{ url: env.DIRECTOR_URL }] : []),
-        ],
+        servers: [{ url: env.CORS_ORIGIN }],
         security: [{ bearerAuth: [] }],
         components: {
           securitySchemes: {
