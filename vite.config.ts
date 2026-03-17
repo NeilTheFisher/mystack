@@ -346,4 +346,17 @@ export default defineConfig({
       ".gerrit_version.json",
     ],
   },
+  test: {
+    alias: {
+      ioredis: "ioredis-mock",
+    },
+    globalSetup: ["./vitest.globalSetup.api.ts"],
+    pool: "threads",
+    include: ["apps/**/*.test.ts", "packages/**/*.test.ts"],
+    server: {
+      deps: {
+        inline: ["ioredis", "ioredis-mock"],
+      },
+    },
+  },
 });

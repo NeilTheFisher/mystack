@@ -11,4 +11,11 @@ describe("Health endpoint", () => {
     expect(error).toBeNull();
     expect(data).toBe("OK");
   });
+
+  it("returns OK from GET /health/redis-test", async () => {
+    const { data, error } = await eden.health["redis-test"].get();
+
+    expect(error).toBeNull();
+    expect(data).toBe("Redis OK");
+  });
 });

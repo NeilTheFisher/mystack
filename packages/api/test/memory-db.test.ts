@@ -1,29 +1,31 @@
-import { db } from "@mystack/db";
-import * as schema from "@mystack/db/migrations/schema";
+import { cache, db } from "@mystack/db";
 import { eq } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
 
-describe("Ephemeral DB API smoke tests", () => {
-  it("inserts and reads a cache row through Drizzle ORM", async () => {
-    const key = `memory-db-smoke-${Date.now()}`;
-    const value = "works";
-    const expiration = Math.floor(Date.now() / 1000) + 60;
+describe.skipIf(process.env.DIRECTOR_TEST_DATABASE_READY !== "true")(
+  "Ephemeral DB API smoke tests",
+  () => {
+    it("inserts and reads a cache row through Drizzle ORM", async () => {
+      const key = `memory-db-smoke-${Date.now()}`;
+      const value = "works";
+      const expiration = Math.floor(Date.now() / 1000) + 60;
 
-    await db.insert(schema.cache).values({
-      key,
-      value,
-      expiration,
+      await db.insert(cache).values({
+        key,
+        value,
+        expiration,
+      });
+
+      const [cacheRow] = await db.select().from(cache).where(eq(cache.key, key)).limit(1);
+
+      expect(cacheRow).toBeDefined();
+      if (!cacheRow) {
+        throw new Error("Expected cache row to exist after insert");
+      }
+
+      expect(cacheRow.key).toBe(key);
+      expect(cacheRow.value).toBe(value);
+      expect(cacheRow.expiration).toBe(expiration);
     });
-
-    const [cacheRow] = await db
-      .select()
-      .from(schema.cache)
-      .where(eq(schema.cache.key, key))
-      .limit(1);
-
-    expect(cacheRow).toBeDefined();
-    expect(cacheRow.key).toBe(key);
-    expect(cacheRow.value).toBe(value);
-    expect(cacheRow.expiration).toBe(expiration);
-  });
-});
+  }
+);

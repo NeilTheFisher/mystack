@@ -1,7 +1,6 @@
 import path from "node:path";
 
 import { cors } from "@elysiajs/cors";
-import openapi, { fromTypes } from "@elysiajs/openapi";
 import { env } from "@mystack/env/server";
 import { Elysia } from "elysia";
 
@@ -18,9 +17,12 @@ const tmpRoot = path.join(projectRoot, "/tmp/openapi");
 const fromTypesTarget =
   env.ENV === "production" ? "/app/packages/api/dist/app.d.ts" : "packages/api/src/app.ts";
 
-export const app = new Elysia()
-  .use(openTelemetry)
-  .use(
+const baseApp = new Elysia().use(openTelemetry);
+
+if (env.ENV !== "test") {
+  const { default: openapi, fromTypes } = await import("@elysiajs/openapi");
+
+  baseApp.use(
     openapi({
       path: "/openapi",
       documentation: {
@@ -58,7 +60,10 @@ export const app = new Elysia()
         overrideOutputPath: env.ENV === "production" ? undefined : "src/app.d.ts",
       }),
     })
-  )
+  );
+}
+
+export const app = baseApp
   .use(
     cors({
       origin: true,

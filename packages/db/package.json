@@ -18,7 +18,9 @@
   "dependencies": {
     "@mystack/env": "workspace:*",
     "dotenv": "catalog:",
-    "drizzle-orm": "^1.0.0-beta.18",
+    "drizzle-orm": "catalog:",
+    "ioredis": "^5.10.0",
+    "mysql-memory-server": "^1.14.1",
     "mysql2": "^3.14.0"
   },
   "devDependencies": {

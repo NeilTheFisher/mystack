@@ -1,4 +1,5 @@
-export function resolveSession(_req: Request) {
+// oxlint-disable-next-line require-await
+export async function resolveSession(_req: Request) {
   let session: { user: { id: string } } | null = null;
 
   if (!session) {
