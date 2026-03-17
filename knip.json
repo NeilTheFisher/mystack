@@ -1,11 +1,5 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
-  "ignoreFiles": [
-    "apps/native/metro.config.js"
-  ],
-  "ignoreDependencies": [
-    "@typescript-eslint/eslint-plugin",
-    "@typescript-eslint/utils",
-    "vitest"
-  ]
+  "ignoreFiles": ["apps/native/metro.config.js"],
+  "ignoreDependencies": ["@typescript-eslint/eslint-plugin", "@typescript-eslint/utils", "vitest"]
 }

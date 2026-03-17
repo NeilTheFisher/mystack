@@ -1,0 +1,2284 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Director API Reference",
+    "description": "Development documentation",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://director.odience.com"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {}
+  },
+  "paths": {
+    "/debug/logs": {
+      "get": {
+        "tags": ["Other"],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "size": {
+                        "type": "number"
+                      },
+                      "modified": {
+                        "type": "number"
+                      }
+                    },
+                    "required": ["name", "size", "modified"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getDebugLogs"
+      }
+    },
+    "/debug/logs/{filename}/tail": {
+      "get": {
+        "tags": ["Other"],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Response for status 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["validation"]
+                    },
+                    "on": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "found": {},
+                    "property": {
+                      "type": "string"
+                    },
+                    "expected": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["type", "on"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getDebugLogsByFilenameTail",
+        "x-is-sse": true,
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/health/": {
+      "get": {
+        "tags": ["Health"],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getHealth"
+      }
+    },
+    "/health/redis-test": {
+      "get": {
+        "tags": ["Health"],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "enum": ["Redis OK", "Redis Error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getHealthRedis-test"
+      }
+    },
+    "/health/live": {
+      "get": {
+        "tags": ["Health"],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getHealthLive",
+        "x-is-sse": true
+      }
+    },
+    "/odience": {
+      "get": {
+        "tags": ["Odience"],
+        "parameters": [
+          {
+            "name": "msisdn",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "country_code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["code", "message"]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Response for status 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["validation"]
+                    },
+                    "on": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "found": {},
+                    "property": {
+                      "type": "string"
+                    },
+                    "expected": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["type", "on"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getOdience"
+      }
+    },
+    "/validatePhoneNumber/{msisdn}": {
+      "get": {
+        "tags": ["Odience"],
+        "parameters": [
+          {
+            "name": "msisdn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "country_code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "operationId": "getValidatePhoneNumberByMsisdn",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/mobile/categoryList": {
+      "get": {
+        "tags": ["Odience"],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getMobileCategoryList"
+      }
+    },
+    "/oauth/token": {
+      "post": {
+        "tags": ["OAuth"],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token_type": {
+                      "type": "string",
+                      "enum": ["Bearer"]
+                    },
+                    "expires_in": {
+                      "type": "number"
+                    },
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "refresh_token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["token_type", "expires_in", "access_token", "refresh_token"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postOauthToken"
+      }
+    },
+    "/web/api/eventsList": {
+      "get": {
+        "tags": ["Web"],
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            }
+          },
+          {
+            "name": "current_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "organization_id": {
+                            "type": "string"
+                          },
+                          "organization": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "category": {
+                            "type": "string"
+                          },
+                          "date": {
+                            "type": "number"
+                          },
+                          "featured": {
+                            "type": "boolean"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "capacity": {
+                            "type": "number"
+                          },
+                          "is_5g": {
+                            "type": "boolean"
+                          },
+                          "imageUrl": {
+                            "type": "string"
+                          },
+                          "map_image_url": {
+                            "type": "string"
+                          },
+                          "invitation_message": {
+                            "type": "string"
+                          },
+                          "web_allowed": {
+                            "type": "number"
+                          },
+                          "app_allowed": {
+                            "type": "number"
+                          },
+                          "invitation_accepted": {
+                            "type": "boolean"
+                          },
+                          "appUrl": {
+                            "type": "string"
+                          },
+                          "event_url": {
+                            "type": "string"
+                          },
+                          "sponsors": {
+                            "type": "object",
+                            "properties": {
+                              "custom": {
+                                "type": "object",
+                                "properties": {}
+                              },
+                              "settings": {
+                                "type": "object",
+                                "properties": {
+                                  "event_brand_panel": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ad_brand_panel_display_interval": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": ["ad_brand_panel_display_interval"]
+                                  },
+                                  "event_details": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ad_event_details_display_interval": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": ["ad_event_details_display_interval"]
+                                  },
+                                  "event_in_stream": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ad_inisde_stream_show_interval": {
+                                        "type": "number"
+                                      },
+                                      "ad_inside_stream_display_delay": {
+                                        "type": "number"
+                                      },
+                                      "ad_inside_stream_skip_after": {
+                                        "type": "number"
+                                      },
+                                      "ad_inside_stream_repeat": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": [
+                                      "ad_inisde_stream_show_interval",
+                                      "ad_inside_stream_display_delay",
+                                      "ad_inside_stream_skip_after",
+                                      "ad_inside_stream_repeat"
+                                    ]
+                                  },
+                                  "event_invitation": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ad_invitation_page_display_interval": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": ["ad_invitation_page_display_interval"]
+                                  }
+                                },
+                                "required": [
+                                  "event_brand_panel",
+                                  "event_details",
+                                  "event_in_stream",
+                                  "event_invitation"
+                                ]
+                              },
+                              "external": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "groupId": {
+                                      "type": "number"
+                                    },
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "image_url": {
+                                      "type": "string"
+                                    },
+                                    "config": {
+                                      "type": "object",
+                                      "additionalProperties": {}
+                                    }
+                                  },
+                                  "required": ["groupId", "id", "name", "image_url", "config"]
+                                }
+                              }
+                            },
+                            "required": ["custom", "settings", "external"]
+                          },
+                          "host": {
+                            "type": "string"
+                          },
+                          "onLocation": {
+                            "type": "boolean"
+                          },
+                          "onLocationLock": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "organization_id",
+                          "organization",
+                          "name",
+                          "description",
+                          "category",
+                          "date",
+                          "featured",
+                          "label",
+                          "capacity",
+                          "is_5g",
+                          "imageUrl",
+                          "map_image_url",
+                          "invitation_message",
+                          "web_allowed",
+                          "app_allowed",
+                          "invitation_accepted",
+                          "appUrl",
+                          "event_url",
+                          "sponsors",
+                          "host",
+                          "onLocation",
+                          "onLocationLock"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Response for status 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["validation"]
+                    },
+                    "on": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "found": {},
+                    "property": {
+                      "type": "string"
+                    },
+                    "expected": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["type", "on"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getWebApiEventsList"
+      }
+    },
+    "/api/events": {
+      "get": {
+        "tags": ["Events"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "current_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total_events": {
+                      "type": "number"
+                    },
+                    "per_page": {
+                      "type": "number"
+                    },
+                    "current_page": {
+                      "type": "number"
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "namespace": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "duration": {
+                            "type": "number"
+                          },
+                          "date": {
+                            "type": "number"
+                          },
+                          "featured": {
+                            "type": "boolean"
+                          },
+                          "location": {
+                            "type": "string"
+                          },
+                          "brand": {
+                            "type": "object",
+                            "properties": {
+                              "show_brand_panel": {
+                                "type": "boolean"
+                              },
+                              "show_brand_description": {
+                                "type": "boolean"
+                              },
+                              "brand_title": {
+                                "type": "string"
+                              },
+                              "brand_subtitle": {
+                                "type": "string"
+                              },
+                              "brand_background_color": {
+                                "type": "string"
+                              },
+                              "brand_text_color": {
+                                "type": "string"
+                              },
+                              "brand_image_url": {
+                                "type": "string"
+                              },
+                              "brand_background_image_url": {
+                                "type": "string"
+                              },
+                              "brand_ad_image_url": {
+                                "type": "string"
+                              },
+                              "brand_background_opacity": {
+                                "type": "number"
+                              },
+                              "brand_logo_padding": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "show_brand_panel",
+                              "show_brand_description",
+                              "brand_title",
+                              "brand_subtitle",
+                              "brand_background_color",
+                              "brand_text_color",
+                              "brand_image_url",
+                              "brand_background_image_url",
+                              "brand_ad_image_url",
+                              "brand_background_opacity",
+                              "brand_logo_padding"
+                            ]
+                          },
+                          "featured_catalogue": {
+                            "type": "object",
+                            "properties": {
+                              "image_alignment": {
+                                "type": "string"
+                              },
+                              "blurred_background": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": ["image_alignment", "blurred_background"]
+                          },
+                          "organization": {
+                            "type": "string"
+                          },
+                          "organization_image_url": {
+                            "type": "string"
+                          },
+                          "owner_id": {
+                            "type": "string"
+                          },
+                          "organization_id": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "category": {
+                            "type": "string"
+                          },
+                          "categoryImage": {
+                            "type": "string"
+                          },
+                          "capacity": {
+                            "type": "number"
+                          },
+                          "coordinates": {
+                            "type": "object",
+                            "properties": {
+                              "lat": {
+                                "type": "number"
+                              },
+                              "lng": {
+                                "type": "number"
+                              }
+                            },
+                            "required": ["lat", "lng"]
+                          },
+                          "is_public": {
+                            "type": "boolean"
+                          },
+                          "is_5g": {
+                            "type": "boolean"
+                          },
+                          "imageUrl": {
+                            "type": "string"
+                          },
+                          "min_price": {
+                            "type": "number"
+                          },
+                          "ticket_url": {
+                            "type": "string"
+                          },
+                          "ticket_platform": {
+                            "type": "string"
+                          },
+                          "map_image_url": {
+                            "type": "string"
+                          },
+                          "promo_video_url": {
+                            "type": "string"
+                          },
+                          "promo_video_aspect_ratio": {
+                            "type": "string"
+                          },
+                          "has_ricoh_stream": {
+                            "type": "boolean"
+                          },
+                          "has_ambisonic_stream": {
+                            "type": "boolean"
+                          },
+                          "payed": {
+                            "type": "boolean"
+                          },
+                          "invitation_message": {
+                            "type": "string"
+                          },
+                          "event_url": {
+                            "type": "string"
+                          },
+                          "invitations_only": {
+                            "type": "boolean"
+                          },
+                          "usersConnected": {
+                            "type": "number"
+                          },
+                          "complete": {
+                            "type": "boolean"
+                          },
+                          "invitation_accepted": {
+                            "type": "boolean"
+                          },
+                          "invitation_requested": {
+                            "type": "boolean"
+                          },
+                          "registered": {
+                            "type": "boolean"
+                          },
+                          "usersInterestedCount": {
+                            "type": "number"
+                          },
+                          "banned": {
+                            "type": "boolean"
+                          },
+                          "blocked": {
+                            "type": "boolean"
+                          },
+                          "opened": {
+                            "type": "boolean"
+                          },
+                          "pre_access": {
+                            "type": "boolean"
+                          },
+                          "web_allowed": {
+                            "type": "number"
+                          },
+                          "app_allowed": {
+                            "type": "number"
+                          },
+                          "appUrl": {
+                            "type": "string"
+                          },
+                          "settings": {
+                            "type": "object",
+                            "properties": {
+                              "event_feature_chat": {
+                                "type": "boolean"
+                              },
+                              "hq_zoom": {
+                                "type": "boolean"
+                              },
+                              "invite_a_friend": {
+                                "type": "boolean"
+                              },
+                              "message_interval": {
+                                "type": "number"
+                              },
+                              "event_message_reminder": {
+                                "type": "number"
+                              },
+                              "event_end_reminder_interval": {
+                                "type": "number"
+                              },
+                              "videowall_request_invite_duration": {
+                                "type": "number"
+                              },
+                              "videowall_request_invite_green_dot_duration": {
+                                "type": "number"
+                              },
+                              "videowall_reaction_duration_interval": {
+                                "type": "number"
+                              },
+                              "maximum_stream_messages": {
+                                "type": "number"
+                              },
+                              "invite_a_friend_start_delay": {
+                                "type": "number"
+                              },
+                              "invite_a_friend_max_invitees": {
+                                "type": "number"
+                              },
+                              "invite_a_friend_call_delay": {
+                                "type": "number"
+                              },
+                              "invite_a_friend_user_type": {
+                                "type": "number"
+                              },
+                              "time_limited_invitation": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "number"
+                                  }
+                                ]
+                              },
+                              "videowall_call_resolution": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "number"
+                                  }
+                                ]
+                              },
+                              "nft_bot": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "number"
+                                  }
+                                ]
+                              },
+                              "automatic_sms_items": {
+                                "type": "string"
+                              },
+                              "chat_profanity": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "number"
+                                  },
+                                  {
+                                    "type": "boolean"
+                                  }
+                                ]
+                              }
+                            },
+                            "required": [
+                              "event_feature_chat",
+                              "hq_zoom",
+                              "invite_a_friend",
+                              "message_interval",
+                              "event_message_reminder",
+                              "event_end_reminder_interval",
+                              "videowall_request_invite_duration",
+                              "videowall_request_invite_green_dot_duration",
+                              "videowall_reaction_duration_interval",
+                              "maximum_stream_messages",
+                              "invite_a_friend_start_delay",
+                              "invite_a_friend_max_invitees",
+                              "invite_a_friend_call_delay",
+                              "invite_a_friend_user_type",
+                              "time_limited_invitation",
+                              "videowall_call_resolution",
+                              "nft_bot",
+                              "automatic_sms_items",
+                              "chat_profanity"
+                            ]
+                          },
+                          "active": {
+                            "type": "boolean"
+                          },
+                          "downloads": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "sponsors": {
+                            "type": "object",
+                            "properties": {
+                              "custom": {
+                                "type": "object",
+                                "properties": {}
+                              },
+                              "settings": {
+                                "type": "object",
+                                "properties": {
+                                  "event_brand_panel": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ad_brand_panel_display_interval": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": ["ad_brand_panel_display_interval"]
+                                  },
+                                  "event_details": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ad_event_details_display_interval": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": ["ad_event_details_display_interval"]
+                                  },
+                                  "event_in_stream": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ad_inisde_stream_show_interval": {
+                                        "type": "number"
+                                      },
+                                      "ad_inside_stream_display_delay": {
+                                        "type": "number"
+                                      },
+                                      "ad_inside_stream_skip_after": {
+                                        "type": "number"
+                                      },
+                                      "ad_inside_stream_repeat": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": [
+                                      "ad_inisde_stream_show_interval",
+                                      "ad_inside_stream_display_delay",
+                                      "ad_inside_stream_skip_after",
+                                      "ad_inside_stream_repeat"
+                                    ]
+                                  },
+                                  "event_invitation": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ad_invitation_page_display_interval": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": ["ad_invitation_page_display_interval"]
+                                  }
+                                },
+                                "required": [
+                                  "event_brand_panel",
+                                  "event_details",
+                                  "event_in_stream",
+                                  "event_invitation"
+                                ]
+                              },
+                              "external": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "groupId": {
+                                      "type": "number"
+                                    },
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "image_url": {
+                                      "type": "string"
+                                    },
+                                    "config": {
+                                      "type": "object",
+                                      "additionalProperties": {}
+                                    }
+                                  },
+                                  "required": ["groupId", "id", "name", "image_url", "config"]
+                                }
+                              }
+                            },
+                            "required": ["custom", "settings", "external"]
+                          },
+                          "host": {
+                            "type": "string"
+                          },
+                          "onLocation": {
+                            "type": "boolean"
+                          },
+                          "onLocationLock": {
+                            "type": "boolean"
+                          },
+                          "streams": {
+                            "type": "array",
+                            "items": {
+                              "not": {}
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "namespace",
+                          "name",
+                          "label",
+                          "duration",
+                          "date",
+                          "featured",
+                          "location",
+                          "brand",
+                          "featured_catalogue",
+                          "organization",
+                          "organization_image_url",
+                          "owner_id",
+                          "organization_id",
+                          "description",
+                          "category",
+                          "categoryImage",
+                          "capacity",
+                          "coordinates",
+                          "is_public",
+                          "is_5g",
+                          "imageUrl",
+                          "min_price",
+                          "ticket_url",
+                          "ticket_platform",
+                          "map_image_url",
+                          "promo_video_url",
+                          "promo_video_aspect_ratio",
+                          "has_ricoh_stream",
+                          "has_ambisonic_stream",
+                          "payed",
+                          "invitation_message",
+                          "event_url",
+                          "invitations_only",
+                          "usersConnected",
+                          "complete",
+                          "invitation_accepted",
+                          "invitation_requested",
+                          "registered",
+                          "usersInterestedCount",
+                          "banned",
+                          "blocked",
+                          "opened",
+                          "pre_access",
+                          "web_allowed",
+                          "app_allowed",
+                          "appUrl",
+                          "settings",
+                          "active",
+                          "downloads",
+                          "sponsors",
+                          "host",
+                          "onLocation",
+                          "onLocationLock",
+                          "streams"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["total_events", "per_page", "current_page", "events"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Response for status 401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Response for status 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["validation"]
+                    },
+                    "on": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "found": {},
+                    "property": {
+                      "type": "string"
+                    },
+                    "expected": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["type", "on"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getApiEvents"
+      }
+    },
+    "/api/events/categories": {
+      "get": {
+        "tags": ["Events"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "category": {
+                            "type": "string"
+                          },
+                          "image": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["category", "image"]
+                      }
+                    }
+                  },
+                  "required": ["categories"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Response for status 401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getApiEventsCategories"
+      }
+    },
+    "/api/events/{id}": {
+      "get": {
+        "tags": ["Events"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Response for status 401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Response for status 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["validation"]
+                    },
+                    "on": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "found": {},
+                    "property": {
+                      "type": "string"
+                    },
+                    "expected": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["type", "on"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getApiEventsById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/partialEvents": {
+      "get": {
+        "tags": ["Events"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "current_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total_events": {
+                      "type": "number"
+                    },
+                    "per_page": {
+                      "type": "number"
+                    },
+                    "current_page": {
+                      "type": "number"
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "namespace": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "duration": {
+                            "type": "number"
+                          },
+                          "date": {
+                            "type": "number"
+                          },
+                          "featured": {
+                            "type": "boolean"
+                          },
+                          "location": {
+                            "type": "string"
+                          },
+                          "brand": {
+                            "type": "object",
+                            "properties": {
+                              "show_brand_panel": {
+                                "type": "boolean"
+                              },
+                              "show_brand_description": {
+                                "type": "boolean"
+                              },
+                              "brand_title": {
+                                "type": "string"
+                              },
+                              "brand_subtitle": {
+                                "type": "string"
+                              },
+                              "brand_background_color": {
+                                "type": "string"
+                              },
+                              "brand_text_color": {
+                                "type": "string"
+                              },
+                              "brand_image_url": {
+                                "type": "string"
+                              },
+                              "brand_background_image_url": {
+                                "type": "string"
+                              },
+                              "brand_ad_image_url": {
+                                "type": "string"
+                              },
+                              "brand_background_opacity": {
+                                "type": "number"
+                              },
+                              "brand_logo_padding": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "show_brand_panel",
+                              "show_brand_description",
+                              "brand_title",
+                              "brand_subtitle",
+                              "brand_background_color",
+                              "brand_text_color",
+                              "brand_image_url",
+                              "brand_background_image_url",
+                              "brand_ad_image_url",
+                              "brand_background_opacity",
+                              "brand_logo_padding"
+                            ]
+                          },
+                          "featured_catalogue": {
+                            "type": "object",
+                            "properties": {
+                              "image_alignment": {
+                                "type": "string"
+                              },
+                              "blurred_background": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": ["image_alignment", "blurred_background"]
+                          },
+                          "organization": {
+                            "type": "string"
+                          },
+                          "organization_image_url": {
+                            "type": "string"
+                          },
+                          "owner_id": {
+                            "type": "string"
+                          },
+                          "organization_id": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "category": {
+                            "type": "string"
+                          },
+                          "categoryImage": {
+                            "type": "string"
+                          },
+                          "capacity": {
+                            "type": "number"
+                          },
+                          "coordinates": {
+                            "type": "object",
+                            "properties": {
+                              "lat": {
+                                "type": "number"
+                              },
+                              "lng": {
+                                "type": "number"
+                              }
+                            },
+                            "required": ["lat", "lng"]
+                          },
+                          "is_public": {
+                            "type": "boolean"
+                          },
+                          "is_5g": {
+                            "type": "boolean"
+                          },
+                          "imageUrl": {
+                            "type": "string"
+                          },
+                          "min_price": {
+                            "type": "number"
+                          },
+                          "ticket_url": {
+                            "type": "string"
+                          },
+                          "ticket_platform": {
+                            "type": "string"
+                          },
+                          "map_image_url": {
+                            "type": "string"
+                          },
+                          "promo_video_url": {
+                            "type": "string"
+                          },
+                          "promo_video_aspect_ratio": {
+                            "type": "string"
+                          },
+                          "has_ricoh_stream": {
+                            "type": "boolean"
+                          },
+                          "has_ambisonic_stream": {
+                            "type": "boolean"
+                          },
+                          "payed": {
+                            "type": "boolean"
+                          },
+                          "invitation_message": {
+                            "type": "string"
+                          },
+                          "event_url": {
+                            "type": "string"
+                          },
+                          "invitations_only": {
+                            "type": "boolean"
+                          },
+                          "usersConnected": {
+                            "type": "number"
+                          },
+                          "complete": {
+                            "type": "boolean"
+                          },
+                          "invitation_accepted": {
+                            "type": "boolean"
+                          },
+                          "invitation_requested": {
+                            "type": "boolean"
+                          },
+                          "registered": {
+                            "type": "boolean"
+                          },
+                          "usersInterestedCount": {
+                            "type": "number"
+                          },
+                          "banned": {
+                            "type": "boolean"
+                          },
+                          "blocked": {
+                            "type": "boolean"
+                          },
+                          "opened": {
+                            "type": "boolean"
+                          },
+                          "pre_access": {
+                            "type": "boolean"
+                          },
+                          "web_allowed": {
+                            "type": "number"
+                          },
+                          "app_allowed": {
+                            "type": "number"
+                          },
+                          "appUrl": {
+                            "type": "string"
+                          },
+                          "settings": {
+                            "type": "object",
+                            "properties": {
+                              "event_feature_chat": {
+                                "type": "boolean"
+                              },
+                              "hq_zoom": {
+                                "type": "boolean"
+                              },
+                              "invite_a_friend": {
+                                "type": "boolean"
+                              },
+                              "message_interval": {
+                                "type": "number"
+                              },
+                              "event_message_reminder": {
+                                "type": "number"
+                              },
+                              "event_end_reminder_interval": {
+                                "type": "number"
+                              },
+                              "videowall_request_invite_duration": {
+                                "type": "number"
+                              },
+                              "videowall_request_invite_green_dot_duration": {
+                                "type": "number"
+                              },
+                              "videowall_reaction_duration_interval": {
+                                "type": "number"
+                              },
+                              "maximum_stream_messages": {
+                                "type": "number"
+                              },
+                              "invite_a_friend_start_delay": {
+                                "type": "number"
+                              },
+                              "invite_a_friend_max_invitees": {
+                                "type": "number"
+                              },
+                              "invite_a_friend_call_delay": {
+                                "type": "number"
+                              },
+                              "invite_a_friend_user_type": {
+                                "type": "number"
+                              },
+                              "time_limited_invitation": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "number"
+                                  }
+                                ]
+                              },
+                              "videowall_call_resolution": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "number"
+                                  }
+                                ]
+                              },
+                              "nft_bot": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "number"
+                                  }
+                                ]
+                              },
+                              "automatic_sms_items": {
+                                "type": "string"
+                              },
+                              "chat_profanity": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "number"
+                                  },
+                                  {
+                                    "type": "boolean"
+                                  }
+                                ]
+                              }
+                            },
+                            "required": [
+                              "event_feature_chat",
+                              "hq_zoom",
+                              "invite_a_friend",
+                              "message_interval",
+                              "event_message_reminder",
+                              "event_end_reminder_interval",
+                              "videowall_request_invite_duration",
+                              "videowall_request_invite_green_dot_duration",
+                              "videowall_reaction_duration_interval",
+                              "maximum_stream_messages",
+                              "invite_a_friend_start_delay",
+                              "invite_a_friend_max_invitees",
+                              "invite_a_friend_call_delay",
+                              "invite_a_friend_user_type",
+                              "time_limited_invitation",
+                              "videowall_call_resolution",
+                              "nft_bot",
+                              "automatic_sms_items",
+                              "chat_profanity"
+                            ]
+                          },
+                          "active": {
+                            "type": "boolean"
+                          },
+                          "downloads": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "sponsors": {
+                            "type": "object",
+                            "properties": {
+                              "custom": {
+                                "type": "object",
+                                "properties": {}
+                              },
+                              "settings": {
+                                "type": "object",
+                                "properties": {
+                                  "event_brand_panel": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ad_brand_panel_display_interval": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": ["ad_brand_panel_display_interval"]
+                                  },
+                                  "event_details": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ad_event_details_display_interval": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": ["ad_event_details_display_interval"]
+                                  },
+                                  "event_in_stream": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ad_inisde_stream_show_interval": {
+                                        "type": "number"
+                                      },
+                                      "ad_inside_stream_display_delay": {
+                                        "type": "number"
+                                      },
+                                      "ad_inside_stream_skip_after": {
+                                        "type": "number"
+                                      },
+                                      "ad_inside_stream_repeat": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": [
+                                      "ad_inisde_stream_show_interval",
+                                      "ad_inside_stream_display_delay",
+                                      "ad_inside_stream_skip_after",
+                                      "ad_inside_stream_repeat"
+                                    ]
+                                  },
+                                  "event_invitation": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ad_invitation_page_display_interval": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": ["ad_invitation_page_display_interval"]
+                                  }
+                                },
+                                "required": [
+                                  "event_brand_panel",
+                                  "event_details",
+                                  "event_in_stream",
+                                  "event_invitation"
+                                ]
+                              },
+                              "external": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "groupId": {
+                                      "type": "number"
+                                    },
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "image_url": {
+                                      "type": "string"
+                                    },
+                                    "config": {
+                                      "type": "object",
+                                      "additionalProperties": {}
+                                    }
+                                  },
+                                  "required": ["groupId", "id", "name", "image_url", "config"]
+                                }
+                              }
+                            },
+                            "required": ["custom", "settings", "external"]
+                          },
+                          "host": {
+                            "type": "string"
+                          },
+                          "onLocation": {
+                            "type": "boolean"
+                          },
+                          "onLocationLock": {
+                            "type": "boolean"
+                          },
+                          "streams": {
+                            "type": "array",
+                            "items": {
+                              "not": {}
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "namespace",
+                          "name",
+                          "label",
+                          "duration",
+                          "date",
+                          "featured",
+                          "location",
+                          "brand",
+                          "featured_catalogue",
+                          "organization",
+                          "organization_image_url",
+                          "owner_id",
+                          "organization_id",
+                          "description",
+                          "category",
+                          "categoryImage",
+                          "capacity",
+                          "coordinates",
+                          "is_public",
+                          "is_5g",
+                          "imageUrl",
+                          "min_price",
+                          "ticket_url",
+                          "ticket_platform",
+                          "map_image_url",
+                          "promo_video_url",
+                          "promo_video_aspect_ratio",
+                          "has_ricoh_stream",
+                          "has_ambisonic_stream",
+                          "payed",
+                          "invitation_message",
+                          "event_url",
+                          "invitations_only",
+                          "usersConnected",
+                          "complete",
+                          "invitation_accepted",
+                          "invitation_requested",
+                          "registered",
+                          "usersInterestedCount",
+                          "banned",
+                          "blocked",
+                          "opened",
+                          "pre_access",
+                          "web_allowed",
+                          "app_allowed",
+                          "appUrl",
+                          "settings",
+                          "active",
+                          "downloads",
+                          "sponsors",
+                          "host",
+                          "onLocation",
+                          "onLocationLock",
+                          "streams"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["total_events", "per_page", "current_page", "events"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Response for status 401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Response for status 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["validation"]
+                    },
+                    "on": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "found": {},
+                    "property": {
+                      "type": "string"
+                    },
+                    "expected": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["type", "on"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getApiPartialEvents"
+      }
+    },
+    "/api/getUserInfo": {
+      "get": {
+        "tags": ["User"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "getApiGetUserInfo",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/getUserInfoByMsisdn/{msisdn}": {
+      "get": {
+        "tags": ["User"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "avatar": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string"
+                    },
+                    "sip": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["id", "name", "avatar", "type", "role", "sip"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Response for status 401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Response for status 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["validation"]
+                    },
+                    "on": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "found": {},
+                    "property": {
+                      "type": "string"
+                    },
+                    "expected": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["type", "on"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getApiGetUserInfoByMsisdnByMsisdn",
+        "parameters": [
+          {
+            "name": "msisdn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/getStreamUrls/{streamUrlId}": {
+      "get": {
+        "tags": ["Stream"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "urls": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["urls", "error"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Response for status 401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Response for status 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["validation"]
+                    },
+                    "on": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "found": {},
+                    "property": {
+                      "type": "string"
+                    },
+                    "expected": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["type", "on"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getApiGetStreamUrlsByStreamUrlId",
+        "parameters": [
+          {
+            "name": "streamUrlId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

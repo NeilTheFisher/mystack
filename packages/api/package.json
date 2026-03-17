@@ -1,0 +1,38 @@
+{
+  "name": "@mystack/api",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.declarations.json",
+    "generate-token": "bun -e 'import { generateTestToken } from \"./src/util/generate-test-token\"; console.log(generateTestToken(process.argv[1]));'",
+    "openapi:generate": "ENV=test SKIP_ENV_VALIDATION=true bun run openapi/openapi-generate.ts",
+    "openapi:generate:client": "OPENAPI_GENERATE_CLIENT=true ENV=test SKIP_ENV_VALIDATION=true bun run openapi/openapi-generate.ts"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "catalog:",
+    "@elysiajs/eden": "catalog:",
+    "@elysiajs/openapi": "catalog:",
+    "@elysiajs/opentelemetry": "^1.4.10",
+    "@mystack/db": "workspace:*",
+    "@mystack/env": "workspace:*",
+    "@openapitools/openapi-generator-cli": "^2.30.2",
+    "@opentelemetry/auto-instrumentations-node": "^0.71.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.213.0",
+    "@opentelemetry/instrumentation-ioredis": "^0.61.0",
+    "@opentelemetry/sdk-trace-node": "^2.6.0",
+    "drizzle-orm": "catalog:",
+    "elysia": "catalog:",
+    "evlog": "^2.8.0",
+    "jsonwebtoken": "^9.0.3"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "@types/jsonwebtoken": "^9.0.10",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

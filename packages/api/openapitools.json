@@ -1,0 +1,43 @@
+{
+  "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "7.17.0",
+    "useDocker": true,
+    "generators": {
+      "csharp": {
+        "generatorName": "csharp",
+        "inputSpec": "./openapi/openapi.json",
+        "output": "./openapi/clients/csharp",
+        "additionalProperties": {
+          "packageName": "DirectorV2.Client",
+          "targetFramework": "net8.0",
+          "nullableReferenceTypes": true,
+          "library": "unityWebRequest",
+          "useDateTimeOffset": true
+        }
+      },
+      "kotlin": {
+        "generatorName": "kotlin",
+        "inputSpec": "./openapi/openapi.json",
+        "output": "./openapi/clients/kotlin",
+        "templateDir": "./openapi/templates/kotlin",
+        "additionalProperties": {
+          "packageName": "director.v2.client",
+          "library": "jvm-okhttp4",
+          "useCoroutines": true,
+          "dateLibrary": "java8"
+        }
+      },
+      "typescript": {
+        "generatorName": "typescript",
+        "inputSpec": "./openapi/openapi.json",
+        "output": "./openapi/clients/typescript",
+        "templateDir": "./openapi/templates/typescript",
+        "additionalProperties": {
+          "supportsES6": true
+        }
+      }
+    }
+  }
+}
