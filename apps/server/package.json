@@ -4,18 +4,14 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsdown",
-    "check-types": "tsc -b",
     "compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
     "dev": "bun run --hot src/index.ts",
     "start": "bun run dist/index.mjs"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.4.1",
-    "@mystack/db": "workspace:*",
     "@mystack/env": "workspace:*",
-    "dotenv": "catalog:",
-    "elysia": "^1.4.21",
-    "zod": "catalog:"
+    "elysia": "^1.4.21"
   },
   "devDependencies": {
     "@mystack/config": "workspace:*",

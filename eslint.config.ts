@@ -1,7 +1,8 @@
+// @ts-expect-error no types
 import biome from "eslint-config-biome";
-import * as pluginReact from "eslint-plugin-react";
+import pluginReact from "eslint-plugin-react";
 import { defineConfig } from "eslint/config";
-import * as globals from "globals";
+import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(

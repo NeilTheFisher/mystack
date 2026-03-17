@@ -10,6 +10,10 @@ export default defineConfig({
     ],
   },
   lint: {
+    options: {
+      typeAware: true,
+      typeCheck: true,
+    },
     plugins: [
       "unicorn",
       "typescript",
@@ -24,10 +28,6 @@ export default defineConfig({
       "jsx-a11y",
     ],
     categories: {},
-    options: {
-      typeAware: true,
-      typeCheck: true,
-    },
     env: {
       builtin: true,
       browser: true,

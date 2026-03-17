@@ -21,8 +21,6 @@
   "type": "module",
   "scripts": {
     "build": "turbo build",
-    "check": "bun run lint",
-    "check-types": "turbo check-types",
     "clean_installation": "find . -type d -name 'node_modules' -prune -exec rm -rf '{}' +",
     "db:generate": "turbo -F @mystack/db db:generate",
     "db:migrate": "turbo -F @mystack/db db:migrate",
@@ -34,24 +32,18 @@
     "dev:web": "turbo -F web dev",
     "fmt": "vp fmt",
     "knip": "knip",
-    "lint": "status=0; bun run lint:vp || status=$?; bun run lint:eslint || status=$?; bun run lint:biome || status=$?; exit $status",
+    "lint": "turbo run lint:vp lint:eslint lint:biome",
     "lint:biome": "biome check --diagnostic-level=error",
     "lint:biome:fix": "biome lint --fix",
     "lint:eslint": "eslint --cache --cache-location node_modules/.cache/.eslintcache/ .",
     "lint:eslint:fix": "eslint --cache --cache-location node_modules/.cache/.eslintcache/ . --fix --fix-type problem",
-    "lint:fix": "turbo lint:eslint:fix lint:oxlint lint:biome:fix lint:oxfmt:fix",
-    "lint:oxlint": "oxlint --threads=2 --type-aware --type-check --quiet",
-    "lint:oxlint:fix": "oxlint --threads=2 --fix",
-    "lint:vp": "vp check",
+    "lint:fix": "turbo run lint:eslint:fix lint:biome:fix lint:oxfmt:fix",
+    "lint:vp": "vp check -- --threads=2",
     "prepare": "vp config",
     "ready": "bun run lint && vp test",
     "update-deps": "bun update -i -r"
   },
-  "dependencies": {
-    "@mystack/env": "workspace:*",
-    "dotenv": "catalog:",
-    "zod": "catalog:"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@biomejs/biome": "^2.2.0",
     "@mystack/config": "workspace:*",

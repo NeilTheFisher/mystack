@@ -1,7 +1,13 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "ui": "tui",
+  "ui": "stream",
   "tasks": {
+    "//#lint:vp": {},
+    "//#lint:eslint": {},
+    "//#lint:biome": {},
+    "//#lint:eslint:fix": {},
+    "//#lint:biome:fix": {},
+    "//#lint:oxfmt:fix": {},
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
@@ -9,9 +15,6 @@
     },
     "lint": {
       "dependsOn": ["^lint"]
-    },
-    "check-types": {
-      "dependsOn": ["^check-types"]
     },
     "dev": {
       "cache": false,
