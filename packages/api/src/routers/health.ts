@@ -1,4 +1,3 @@
-import { redis } from "@mystack/db";
 import { Elysia, sse } from "elysia";
 
 import { base } from "../base";
@@ -9,12 +8,14 @@ export const healthRouter = new Elysia({ prefix: "/health", detail: { tags: ["He
   .get(
     "/redis-test",
     async () => {
+      const { redis } = await import("@mystack/db");
       await redis.set("health-check", "ok");
       const value = await redis.get("health-check");
       return value === "ok" ? "Redis OK" : "Redis Error";
     },
     {
       afterHandle: async () => {
+        const { redis } = await import("@mystack/db");
         await redis.del("health-check");
       },
     }

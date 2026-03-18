@@ -21,7 +21,7 @@ if (customServer) {
 }
 
 const output = "./openapi/openapi.json";
-await $`echo '${JSON.stringify(spec, null, 2)}' > ${output} && bun x oxfmt ${output}`;
+await $`echo '${JSON.stringify(spec, null, 2)}' > ${output} && vp fmt --threads=1 ${output} > /dev/null`;
 console.log(`OpenAPI spec generated at ${output}`);
 
 if (process.env.OPENAPI_GENERATE_CLIENT === "true") {

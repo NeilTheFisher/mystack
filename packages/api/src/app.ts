@@ -1,6 +1,7 @@
 import path from "node:path";
 
 import { cors } from "@elysiajs/cors";
+import openapi, { fromTypes } from "@elysiajs/openapi";
 import { env } from "@mystack/env/server";
 import { Elysia } from "elysia";
 
@@ -8,7 +9,6 @@ import { version as packageVersion } from "../package.json";
 
 import { openTelemetry } from "./otel";
 import { healthRouter } from "./routers";
-import { generateTestToken } from "./util/generate-test-token";
 
 const projectRoot = path.join(import.meta.dirname, "../../..");
 const tmpRoot = path.join(projectRoot, "/tmp/openapi");
@@ -17,13 +17,11 @@ const tmpRoot = path.join(projectRoot, "/tmp/openapi");
 const fromTypesTarget =
   env.ENV === "production" ? "/app/packages/api/dist/app.d.ts" : "packages/api/src/app.ts";
 
-const baseApp = new Elysia().use(openTelemetry);
-
-if (env.ENV !== "test") {
-  const { default: openapi, fromTypes } = await import("@elysiajs/openapi");
-
-  baseApp.use(
+export const app = new Elysia()
+  .use(openTelemetry)
+  .use(
     openapi({
+      enabled: env.ENV !== "test",
       path: "/openapi",
       documentation: {
         info: {
@@ -43,13 +41,14 @@ if (env.ENV !== "test") {
       },
       scalar: {
         persistAuth: true,
-        authentication: {
-          securitySchemes: {
-            bearerAuth: {
-              token: env.ENV === "development" ? generateTestToken() : undefined,
-            },
-          },
-        },
+        // TODO add some auto generated auth so that requests can be easily made though scalar
+        // authentication: {
+        //   securitySchemes: {
+        //     bearerAuth: {
+        //       token: env.ENV === "development" ? generateTestToken() : undefined,
+        //     },
+        //   },
+        // },
       },
       references: fromTypes(fromTypesTarget, {
         projectRoot: projectRoot,
@@ -57,10 +56,7 @@ if (env.ENV !== "test") {
         overrideOutputPath: env.ENV === "production" ? undefined : "src/app.d.ts",
       }),
     })
-  );
-}
-
-export const app = baseApp
+  )
   .use(
     cors({
       origin: true,

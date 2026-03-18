@@ -47,6 +47,8 @@
     "lint:eslint:fix": "eslint --cache --cache-location node_modules/.cache/.eslintcache/ . --fix --fix-type problem",
     "lint:fix": "turbo run lint:eslint:fix lint:biome:fix lint:oxfmt:fix",
     "lint:vp": "vp check -- --threads=2",
+    "openapi:generate": "turbo -F @mystack/api openapi:generate",
+    "openapi:generate:client": "turbo -F @mystack/api openapi:generate:client",
     "prepare": "vp config",
     "ready": "bun run lint && vp test",
     "test": "vp test",

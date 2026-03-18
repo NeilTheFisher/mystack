@@ -33,6 +33,15 @@
     "db:studio": {
       "cache": false,
       "persistent": true
+    },
+    "openapi:generate": {
+      "inputs": ["src/**", "package.json"],
+      "outputs": ["openapi/openapi.json"]
+    },
+    "openapi:generate:client": {
+      "dependsOn": ["openapi:generate"],
+      "inputs": ["openapi/openapi.json", "openapitools.json"],
+      "outputs": ["openapi/generated/**"]
     }
   }
 }

@@ -7,18 +7,25 @@ import { log } from "../logger";
 
 export function generateTestToken(userId = "1", verify = false) {
   const keyDir = path.join(import.meta.dirname, "../../../../priv");
-  const privateKey = fs.readFileSync(path.join(keyDir, "private-key.pem"));
-  const publicKey = fs.readFileSync(path.join(keyDir, "public.key"));
+  const privateKeyPath = path.join(keyDir, "private-key.pem");
 
-  const token = jwt.sign({ sub: userId }, privateKey, {
-    algorithm: "RS256",
+  const hasRsaKey = fs.existsSync(privateKeyPath);
+  if (!hasRsaKey) {
+    log.warn({ message: "generateTestToken: falling back to symmetric key (dev only)" });
+  }
+
+  const signingKey = hasRsaKey ? fs.readFileSync(privateKeyPath) : "dev-secret";
+  const algorithm = hasRsaKey ? "RS256" : "HS256";
+
+  const token = jwt.sign({ sub: userId }, signingKey, {
+    algorithm,
     expiresIn: "10years",
   });
 
   if (verify) {
     try {
-      const decoded = jwt.verify(token, publicKey, {
-        algorithms: ["RS256"],
+      const decoded = jwt.verify(token, signingKey, {
+        algorithms: [algorithm],
         clockTolerance: 250,
       });
       log.info("generateTestToken", "✓ Verification successful!");
