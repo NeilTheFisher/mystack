@@ -19,13 +19,13 @@
     "@mystack/env": "workspace:*",
     "dotenv": "catalog:",
     "drizzle-orm": "catalog:",
-    "ioredis": "^5.10.0",
+    "ioredis": "^5.10.1",
     "mysql-memory-server": "^1.14.1",
     "mysql2": "^3.14.0"
   },
   "devDependencies": {
     "@mystack/config": "workspace:*",
     "drizzle-kit": "^1.0.0-beta.18",
-    "typescript": "^5"
+    "typescript": "^6.0.2"
   }
 }

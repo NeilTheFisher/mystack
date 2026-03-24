@@ -26,7 +26,7 @@
     "@opentelemetry/sdk-trace-node": "^2.6.0",
     "drizzle-orm": "catalog:",
     "elysia": "catalog:",
-    "evlog": "^2.8.0",
+    "evlog": "^2.9.0",
     "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
