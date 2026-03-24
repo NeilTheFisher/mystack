@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/a11y/noLabelWithoutControl: <explanation> */
+/** biome-ignore-all lint/a11y/noLabelWithoutControl: label component is used correctly */
 import { cn } from "@mystack/ui/lib/utils";
 import type * as React from "react";
 
