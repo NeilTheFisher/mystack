@@ -47,6 +47,7 @@ export const AppThemeProvider = ({ children }: { children: React.ReactNode }) =>
   return <AppThemeContext.Provider value={value}>{children}</AppThemeContext.Provider>;
 };
 
+// oxlint-disable-next-line react/only-export-components
 export function useAppTheme() {
   const context = useContext(AppThemeContext);
   if (!context) {

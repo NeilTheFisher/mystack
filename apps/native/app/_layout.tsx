@@ -6,6 +6,7 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 
 import { AppThemeProvider } from "@/contexts/app-theme-context";
 
+// oxlint-disable-next-line react/only-export-components
 export const unstable_settings = {
   initialRouteName: "(drawer)",
 };

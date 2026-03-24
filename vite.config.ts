@@ -196,6 +196,7 @@ export default defineConfig({
       "typescript/restrict-template-expressions": "warn",
       "typescript/triple-slash-reference": "warn",
       "typescript/unbound-method": "warn",
+      "typescript/no-explicit-any": "error",
       "unicorn/no-await-in-promise-methods": "warn",
       "unicorn/no-empty-file": "warn",
       "unicorn/no-invalid-fetch-options": "warn",
@@ -287,6 +288,24 @@ export default defineConfig({
       "jsx-a11y/tabindex-no-positive": "off",
       "react/void-dom-elements-no-children": "off",
       "react/react-in-jsx-scope": "off",
+      "react/rules-of-hooks": "error",
+      "react/exhaustive-deps": "warn",
+      "react/only-export-components": [
+        "error",
+        {
+          allowConstantExport: true,
+          customHOCs: [
+            "createFileRoute",
+            "createLazyFileRoute",
+            "createRootRoute",
+            "createRootRouteWithContext",
+            "createLink",
+            "createRoute",
+            "createLazyRoute",
+          ],
+        },
+      ],
+      "unicorn/prefer-string-replace-all": "warn",
     },
     overrides: [
       {

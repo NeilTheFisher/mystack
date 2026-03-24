@@ -36,6 +36,11 @@
   },
   "linter": {
     "enabled": true,
+    "domains": {
+      "drizzle": "recommended",
+      "test": "recommended",
+      "turborepo": "recommended"
+    },
     "rules": {
       "recommended": true,
       "correctness": {
