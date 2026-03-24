@@ -156,6 +156,7 @@ export default defineConfig({
       "use-isnan": "warn",
       "valid-typeof": "warn",
       "eslint/require-await": "warn",
+      "eslint/max-lines": ["error", { max: 1000 }],
       "oxc/bad-array-method-on-arguments": "warn",
       "oxc/bad-char-at-comparison": "warn",
       "oxc/bad-comparison-sequence": "warn",
