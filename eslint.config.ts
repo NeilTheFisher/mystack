@@ -1,6 +1,5 @@
 // @ts-expect-error no types
 import biome from "eslint-config-biome";
-import pluginReact from "eslint-plugin-react";
 import { defineConfig } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
@@ -12,8 +11,6 @@ export default defineConfig(
   {
     ignores: [
       "**/.agents/**",
-      "**/.next/**",
-      "**/.output/**",
       "**/.turbo/**",
       "**/dist/**",
       "**/generated/**",
@@ -21,8 +18,6 @@ export default defineConfig(
       "**/node_modules/**",
       "**/openapi/client-tests/**",
       "**/openapi/clients/**",
-      "**/out/**",
-      "**/postcss.config.mjs",
       "**/temp/**",
       "**/*.lock",
       "**/routeTree.gen.ts",
@@ -37,7 +32,9 @@ export default defineConfig(
         ecmaVersion: "latest",
         sourceType: "module",
         ecmaFeatures: { jsx: true },
-        projectService: true,
+        projectService: {
+          allowDefaultProject: ["packages/ui/postcss.config.mjs"],
+        },
         tsconfigRootDir: import.meta.dirname,
       },
       globals: {
@@ -78,42 +75,6 @@ export default defineConfig(
       "@typescript-eslint/prefer-promise-reject-errors": "off",
       "@typescript-eslint/require-await": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
-    },
-  },
-  {
-    files: ["**/*.js", "**/*.mjs", "**/*.cjs"],
-    languageOptions: {
-      parserOptions: {
-        ecmaVersion: "latest",
-        projectService: false,
-        sourceType: "module",
-      },
-      sourceType: "commonjs",
-      globals: {
-        ...globals.node,
-        ...globals.bun,
-        __dirname: "readonly",
-        module: "readonly",
-        require: "readonly",
-      },
-    },
-    rules: {
-      "@typescript-eslint/no-require-imports": "off",
-    },
-  },
-  pluginReact.configs.flat.recommended,
-  {
-    rules: {
-      "react/jsx-uses-react": "error",
-      "react/no-unescaped-entities": "off",
-      "react/no-unknown-property": ["error", { ignore: ["css"] }],
-      "react/prop-types": "off",
-      "react/react-in-jsx-scope": "off",
-    },
-    settings: {
-      react: {
-        version: "19.0.0",
-      },
     },
   },
   biome
