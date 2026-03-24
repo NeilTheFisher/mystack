@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "@mystack/config/tsconfig.base.json",
   "compilerOptions": {
     "noEmit": false,
     "declaration": true,
@@ -7,7 +7,7 @@
     "outDir": "dist",
     "rootDir": "src",
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true
+    "skipDefaultLibCheck": true,
   },
-  "include": ["src/app.ts"]
+  "include": ["src/app.ts"],
 }

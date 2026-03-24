@@ -19,14 +19,14 @@
     "@elysiajs/opentelemetry": "^1.4.10",
     "@mystack/db": "workspace:*",
     "@mystack/env": "workspace:*",
-    "@openapitools/openapi-generator-cli": "^2.30.2",
+    "@openapitools/openapi-generator-cli": "^2.31.0",
     "@opentelemetry/auto-instrumentations-node": "^0.71.0",
     "@opentelemetry/exporter-trace-otlp-http": "^0.213.0",
     "@opentelemetry/instrumentation-ioredis": "^0.61.0",
     "@opentelemetry/sdk-trace-node": "^2.6.0",
     "drizzle-orm": "catalog:",
     "elysia": "catalog:",
-    "evlog": "^2.9.0",
+    "evlog": "^2.10.0",
     "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
