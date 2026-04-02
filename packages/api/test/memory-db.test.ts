@@ -17,9 +17,11 @@ describe.skipIf(process.env.TEST_DATABASE_READY !== "true")("Ephemeral DB API sm
     const [cacheRow] = await db.select().from(cache).where(eq(cache.key, key)).limit(1);
 
     expect(cacheRow).toBeDefined();
+    // oxlint-disable
     if (!cacheRow) {
       throw new Error("Expected cache row to exist after insert");
     }
+    // oxlint-enable
 
     expect(cacheRow.key).toBe(key);
     expect(cacheRow.value).toBe(value);

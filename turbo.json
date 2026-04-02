@@ -3,9 +3,7 @@
   "ui": "stream",
   "tasks": {
     "//#lint:vp": {},
-    "//#lint:eslint": {},
     "//#lint:biome": {},
-    "//#lint:eslint:fix": {},
     "//#lint:biome:fix": {},
     "//#lint:oxfmt:fix": {},
     "build": {
